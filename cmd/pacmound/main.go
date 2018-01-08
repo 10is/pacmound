@@ -8,9 +8,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/crhntr/pacmound"
-	"github.com/crhntr/pacmound/agents"
-	"github.com/crhntr/pacmound/agents/markov"
+	"github.com/10is/pacmound"
+	"github.com/10is/pacmound/agents"
 )
 
 func getPython() pacmound.Agent {
@@ -22,15 +21,13 @@ func main() {
 		loops int
 		serve bool
 	)
-	flag.IntVar(&loops, "loops", 0, "")
-	flag.BoolVar(&serve, "serve", false, "")
+	// flag.IntVar(&loops, "loops", 0, "")
+	flag.BoolVar(&serve, "serve", true, "")
 	flag.Parse()
 
 	rand.Seed(time.Now().Unix())
 
-	agent := &markov.Agent{
-		LearningRate: 0.01,
-	}
+	agent := &maximux.Agent{}
 	// agent := &agents.Random{}
 	fmt.Println(agent)
 
@@ -38,10 +35,10 @@ func main() {
 		return agent
 	}
 
-	for i := 0; i < loops; i++ {
-		//fmt.Printf("loop %d\n", i)
-		pacmound.Level04(getGopher, getPython)
-	}
+	// for i := 0; i < loops; i++ {
+	// 	//fmt.Printf("loop %d\n", i)
+	// 	pacmound.Level04(getGopher, getPython)
+	// }
 	fmt.Println(agent)
 
 	if serve {

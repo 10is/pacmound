@@ -1,6 +1,6 @@
 package agents
 
-import "github.com/crhntr/pacmound"
+import "github.com/10is/pacmound"
 
 func Actions() []pacmound.Direction {
 	return pacmound.Directions()

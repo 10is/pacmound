@@ -3,7 +3,7 @@ package agents
 import (
 	"math/rand"
 
-	"github.com/crhntr/pacmound"
+	"github.com/10is/pacmound"
 )
 
 type Random struct{}

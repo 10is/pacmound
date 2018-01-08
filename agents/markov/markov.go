@@ -4,8 +4,8 @@ import (
 	"math"
 	"math/rand"
 
-	"github.com/crhntr/pacmound"
-	"github.com/crhntr/pacmound/agents"
+	"github.com/10is/pacmound"
+	"github.com/10is/pacmound/agents"
 	"gonum.org/v1/gonum/stat"
 )
 
