@@ -10,6 +10,7 @@ import (
 
 	"github.com/10is/pacmound"
 	"github.com/10is/pacmound/agents"
+	"github.com/10is/pacmound/agents/maximus"
 )
 
 func getPython() pacmound.Agent {
@@ -17,17 +18,14 @@ func getPython() pacmound.Agent {
 }
 
 func main() {
-	var (
-		loops int
-		serve bool
-	)
+	var serve bool
 	// flag.IntVar(&loops, "loops", 0, "")
 	flag.BoolVar(&serve, "serve", true, "")
 	flag.Parse()
 
 	rand.Seed(time.Now().Unix())
 
-	agent := &maximux.Agent{}
+	agent := &maximus.Agent{}
 	// agent := &agents.Random{}
 	fmt.Println(agent)
 
