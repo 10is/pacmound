@@ -32,8 +32,6 @@ func (agent *Agent) addHawk() pacmound.Direction {
 	rewards := make([]float64, len(directions))
 
 	for i, direction := range directions {
-		stopLooking := false
-
 		if agent.wouldcrash(direction) {
 			rewards[i] = math.Inf(-1)
 			continue
@@ -41,43 +39,9 @@ func (agent *Agent) addHawk() pacmound.Direction {
 		if agent.TryOpertunisticShortPath(direction) {
 			return direction
 		}
-
 		if agent.wouldeat(direction) {
 			return direction
 		}
-
-		for distance := 1; distance <= 10 && !stopLooking; distance++ {
-			fmt.Printf("distance %d, action: %s, rewards: %v\n", distance, direction, rewards)
-
-			xt, yt := direction.Transform()
-			xt, yt = yt*distance, yt*distance
-			block := agent.scope(xt, yt)
-
-			fmt.Printf("block == nil is %t\n", block == nil)
-			if block == nil {
-				stopLooking = true
-				continue
-			}
-			fmt.Printf("block.IsObstructed() is %t\n", block.IsObstructed())
-			if block.IsObstructed() {
-				rewards[i] -= float64(1/distance) * 100000
-				stopLooking = true
-				break
-			}
-			fmt.Printf("block.IsOccupiedWithPython() is %t\n", block.IsOccupiedWithPython())
-			if block.IsOccupiedWithPython() {
-				rewards[i] -= 1000 / float64(distance)
-			}
-
-			reward := block.Reward()
-			fmt.Printf("reward := block.Reward(); reward > 0 is %t\n", reward > 0)
-			if reward > 0 {
-				rewards[i] += reward / float64(distance)
-			} else {
-				rewards[i] -= float64(10 / distance)
-			}
-		}
-
 		if agent.directionToPreviousBlock == direction {
 			rewards[i] -= 500
 		}
@@ -127,4 +91,10 @@ func (agent *Agent) wouldeat(direction pacmound.Direction) bool {
 	xt, yt := direction.Transform()
 	block := agent.scope(xt, yt)
 	return block != nil && block.Reward() > 0
+}
+
+func (agent *Agent) IsOccupiedWithPython(direction pacmound.Direction) bool {
+	xt, yt := direction.Transform()
+	block := agent.scope(xt, yt)
+	return block == nil || block.IsObstructed()
 }
